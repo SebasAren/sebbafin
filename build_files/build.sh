@@ -12,7 +12,7 @@ set -ouex pipefail
 # this installs a package from fedora repos
 # install keyd for keybinding changes
 dnf5 -y copr enable alternateved/keyd
-dnf5 -y install tmux keyd
+dnf5 -y install keyd
 dnf5 -y copr disable alternateved/keyd
 
 # Use a COPR Example:
