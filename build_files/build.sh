@@ -15,7 +15,6 @@ dnf5 -y copr enable alternateved/keyd
 dnf5 -y install tmux keyd
 dnf5 -y copr disable alternateved/keyd
 
-
 # Use a COPR Example:
 #
 # dnf5 -y copr enable ublue-os/staging
