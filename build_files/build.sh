@@ -24,6 +24,5 @@ dnf5 -y copr disable alternateved/keyd
 
 #### Example for enabling a System Unit File
 
-systemctl enable podman.socket
 # enable keyd
 systemctl enable keyd
