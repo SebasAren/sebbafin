@@ -15,6 +15,11 @@ dnf5 -y copr enable alternateved/keyd
 dnf5 -y install keyd
 dnf5 -y copr disable alternateved/keyd
 
+# install ghostty terminal emulator (native GPU-accelerated, pi image support)
+dnf5 -y copr enable alternateved/ghostty
+dnf5 -y install ghostty
+dnf5 -y copr disable alternateved/ghostty
+
 # Use a COPR Example:
 #
 # dnf5 -y copr enable ublue-os/staging
