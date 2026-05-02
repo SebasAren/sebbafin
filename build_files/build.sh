@@ -34,7 +34,7 @@ dnf5 -y copr disable alternateved/ghostty
 dnf5 -y remove tmux
 
 # Install build dependencies
-dnf5 -y install gcc make libevent-devel ncurses-devel bison pkgconf
+dnf5 -y install gcc make libevent-devel ncurses-devel bison pkgconf utf8proc-devel
 
 # Download and build tmux 3.6a
 TMUX_VERSION="3.6a"
@@ -55,7 +55,8 @@ make install
 # Clean up build artifacts and dependencies
 cd /
 rm -rf /tmp/tmux-* /tmp/tmux.tar.gz
-dnf5 -y remove gcc make libevent-devel ncurses-devel bison pkgconf
+dnf5 -y remove gcc make libevent-devel ncurses-devel bison utf8proc-devel
+dnf5 -y install utf8proc
 
 #### Example for enabling a System Unit File
 
