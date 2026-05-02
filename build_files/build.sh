@@ -16,9 +16,11 @@ dnf5 -y install keyd
 dnf5 -y copr disable alternateved/keyd
 
 # install ghostty terminal emulator (native GPU-accelerated, pi image support)
-dnf5 -y copr enable alternateved/ghostty
+# NOTE: switched from alternateved/ghostty (tip/nightly, prone to regressions)
+# to scottames/ghostty (stable releases, 100k+ downloads, better maintained)
+dnf5 -y copr enable scottames/ghostty
 dnf5 -y install ghostty
-dnf5 -y copr disable alternateved/ghostty
+dnf5 -y copr disable scottames/ghostty
 
 # Use a COPR Example:
 #
