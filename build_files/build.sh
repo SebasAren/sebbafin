@@ -27,6 +27,36 @@ dnf5 -y copr disable alternateved/ghostty
 # Disable COPRs so they don't end up enabled on the final image:
 # dnf5 -y copr disable ublue-os/staging
 
+### Build tmux from source with Kitty Graphics Protocol support
+# Fedora ships tmux 3.5a which lacks --enable-kitty-images.
+# tmux 3.6a+ supports KGP natively for inline images in Ghostty.
+# Remove the system tmux first to avoid file conflicts.
+dnf5 -y remove tmux
+
+# Install build dependencies
+dnf5 -y install gcc make libevent-devel ncurses-devel bison pkgconf
+
+# Download and build tmux 3.6a
+TMUX_VERSION="3.6a"
+curl -L "https://github.com/tmux/tmux/releases/download/${TMUX_VERSION}/tmux-${TMUX_VERSION}.tar.gz" -o /tmp/tmux.tar.gz
+tar -xzf /tmp/tmux.tar.gz -C /tmp
+cd "/tmp/tmux-${TMUX_VERSION}"
+
+./configure \
+    --prefix=/usr \
+    --enable-kitty-images \
+    --enable-sixel \
+    --enable-utf8proc \
+    --sysconfdir=/etc
+
+make -j"$(nproc)"
+make install
+
+# Clean up build artifacts and dependencies
+cd /
+rm -rf /tmp/tmux-* /tmp/tmux.tar.gz
+dnf5 -y remove gcc make libevent-devel ncurses-devel bison pkgconf
+
 #### Example for enabling a System Unit File
 
 # enable keyd
