@@ -15,12 +15,11 @@ dnf5 -y copr enable alternateved/keyd
 dnf5 -y install keyd
 dnf5 -y copr disable alternateved/keyd
 
-# install ghostty terminal emulator (native GPU-accelerated, pi image support)
-# NOTE: switched from alternateved/ghostty (tip/nightly, prone to regressions)
-# to scottames/ghostty (stable releases, 100k+ downloads, better maintained)
-dnf5 -y copr enable scottames/ghostty
-dnf5 -y install ghostty
-dnf5 -y copr disable scottames/ghostty
+# install kitty terminal emulator (native GPU-accelerated, pi image support)
+# Use solopasha/kitty COPR for latest stable releases (Fedora repo lags behind upstream)
+dnf5 -y copr enable solopasha/kitty
+dnf5 -y install kitty
+dnf5 -y copr disable solopasha/kitty
 
 # Use a COPR Example:
 #
@@ -31,7 +30,7 @@ dnf5 -y copr disable scottames/ghostty
 
 ### Build tmux from source with Kitty Graphics Protocol support
 # Fedora ships tmux 3.5a which lacks --enable-kitty-images.
-# tmux 3.6a+ supports KGP natively for inline images in Ghostty.
+# tmux 3.6a+ supports KGP natively for inline images in Kitty.
 # Remove the system tmux first to avoid file conflicts.
 dnf5 -y remove tmux
 
