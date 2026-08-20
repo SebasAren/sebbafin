@@ -54,9 +54,10 @@ make -j"$(nproc)"
 make install
 
 # Clean up build artifacts and dependencies
+# Keep gcc installed on the final image.
 cd /
 rm -rf /tmp/tmux-* /tmp/tmux.tar.gz
-dnf5 -y remove gcc make libevent-devel ncurses-devel bison utf8proc-devel
+dnf5 -y remove make libevent-devel ncurses-devel bison utf8proc-devel
 dnf5 -y install utf8proc
 
 #### Example for enabling a System Unit File
