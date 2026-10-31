@@ -186,3 +186,36 @@ jobs:
           TAGS: ${{ steps.push.outputs.digest }}
           COSIGN_EXPERIMENTAL: false
           COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
+
+  # GitHub silently disables scheduled workflows in public repos after 60 days
+  # without repository activity (state: disabled_inactivity). Scheduled runs do
+  # not count as activity, so this cron would keep killing itself without this
+  # job: it commits an empty commit to main only when the repo has been quiet
+  # for 45+ days, resetting the inactivity timer. Pushes made with GITHUB_TOKEN
+  # do not trigger the push event, so this cannot retrigger the build above.
+  keepalive:
+    name: Keep scheduled workflow alive
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-24.04
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          fetch-depth: 1
+
+      - name: Commit only if main is stale
+        run: |
+          age=$(( ( $(date +%s) - $(git log -1 --format=%ct) ) / 86400 ))
+          echo "Days since last commit: ${age}"
+          if [ "$age" -lt 45 ]; then
+            echo "Recent repository activity, nothing to do"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit --allow-empty -m "chore: keepalive after ${age} quiet days"
+          git push origin HEAD:main
